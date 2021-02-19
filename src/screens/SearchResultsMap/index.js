@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, Text, FlatList} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import styles from './styles';
@@ -11,6 +11,22 @@ import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimen
 const SearchResultsMap = () => {
   const [selectedPlaceId, setSelectedPlaceId] = useState(null);
   const width = useWindowDimensions().width;
+  const flatlist = useRef();
+  const viewConfig = useRef({itemVisiblePercentThreshold: 70});
+  const onViewChanged = useRef(({viewableItems}) => {
+    console.log(viewableItems);
+    if (viewableItems.length > 0) {
+      const selectedPlace = viewableItems[0].item;
+      setSelectedPlaceId(selectedPlace.id);
+    }
+  });
+  useEffect(() => {
+    if (!selectedPlaceId || !flatlist) {
+      return;
+    }
+    const index = places.findIndex((place) => place.id === selectedPlaceId);
+    flatlist.current.scrollToIndex({index});
+  }, [selectedPlaceId]);
   return (
     <View style={styles.container}>
       <MapView
@@ -33,6 +49,7 @@ const SearchResultsMap = () => {
       </MapView>
       <View style={styles.postContainer}>
         <FlatList
+          ref={flatlist}
           data={places}
           renderItem={({item}) => <PostCarouselItem data={item} />}
           horizontal
@@ -40,6 +57,8 @@ const SearchResultsMap = () => {
           snapToInterval={width - 60}
           snapToAlignment="center"
           decelerationRate="fast"
+          viewabilityConfig={viewConfig.current}
+          onViewableItemsChanged={onViewChanged.current}
         />
       </View>
     </View>
