@@ -14,7 +14,6 @@ const SearchResultsMap = () => {
   const flatlist = useRef();
   const viewConfig = useRef({itemVisiblePercentThreshold: 70});
   const onViewChanged = useRef(({viewableItems}) => {
-    console.log(viewableItems);
     if (viewableItems.length > 0) {
       const selectedPlace = viewableItems[0].item;
       setSelectedPlaceId(selectedPlace.id);
