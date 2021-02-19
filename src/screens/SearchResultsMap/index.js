@@ -1,13 +1,16 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, FlatList} from 'react-native';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import styles from './styles';
 import AirbnbMarker from '../../components/AirbnbMarker';
+import PostCarouselItem from '../../components/PostCarouselItem';
 
 import places from '../../../assets/data/feed';
+import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
 const SearchResultsMap = () => {
   const [selectedPlaceId, setSelectedPlaceId] = useState(null);
+  const width = useWindowDimensions().width;
   return (
     <View style={styles.container}>
       <MapView
@@ -28,6 +31,17 @@ const SearchResultsMap = () => {
           />
         ))}
       </MapView>
+      <View style={styles.postContainer}>
+        <FlatList
+          data={places}
+          renderItem={({item}) => <PostCarouselItem data={item} />}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={width - 60}
+          snapToAlignment="center"
+          decelerationRate="fast"
+        />
+      </View>
     </View>
   );
 };
