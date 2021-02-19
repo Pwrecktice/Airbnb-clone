@@ -10,7 +10,6 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {StatusBar} from 'react-native';
 
-import feed from './assets/data/feed';
 import Router from './src/navigation/Router';
 
 const App: () => React$Node = () => {
