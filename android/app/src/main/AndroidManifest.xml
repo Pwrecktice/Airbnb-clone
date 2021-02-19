@@ -10,6 +10,13 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <!-- Google Map Service -->
+      <meta-data
+     android:name="com.google.android.geo.API_KEY"
+     android:value="AIzaSyA4TIJoiC2TJcJxYgN_Wnh1dAis10mBGe4"/>
+  
+      <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
